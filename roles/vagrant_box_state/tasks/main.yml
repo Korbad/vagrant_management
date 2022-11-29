@@ -1,0 +1,6 @@
+---
+- name: Execute vagrant up or down
+  command:
+    cmd: vagrant {{ vagrant_state | default('up') }}
+    chdir: "{{ vagrant_staging_dir }}/{{ inventory_hostname }}"
+  delegate_to: localhost

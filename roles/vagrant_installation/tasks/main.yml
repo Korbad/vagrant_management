@@ -1,0 +1,8 @@
+---
+# - debug:
+#     var: ansible_facts['distribution']
+- include_tasks: install_on_Alma_host.yml
+  # when:
+  #   - ansible_facts['distribution'] in ["Alma", "AlmaLinux"]
+# - include_tasks: install_on_Ubuntu_host.yml
+#   when: ansible_facts['distribution'] == "Ubuntu"

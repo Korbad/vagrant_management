@@ -1,0 +1,67 @@
+---
+# - name: The DNF ansible module doesn't support (as of this writing) adding the dnf repo we need
+#   command:
+#     cmd: dnf config-manager --add-repo repository_url
+
+# - name: Add repo to dnf config manager
+#   community.general.copr:
+#     host: rpm.releases.hashicorp.com
+#     name: fedora/hashicorp
+#   become: yes
+
+# - name: Add repos via yum (which will also be used by dnf)
+#   ansible.builtin.yum_repository:
+#     name: epel
+#     description: EPEL YUM repo
+#     baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+
+- name: "Import remi GPG key."
+  rpm_key:
+    key: https://rpms.remirepo.net/RPM-GPG-KEY-remi2018
+    state: present
+  become: yes
+
+- rpm_key:
+    state: present
+    key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-8
+
+- name: Add repo via yum, will be used by dnf
+  ansible.builtin.yum_repository:
+    name: hashicorp
+    description: rhel hashi
+    baseurl: https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+    state: absent
+  become: yes
+
+- name: Add repo via yum, will be used by dnf
+  ansible.builtin.yum_repository:
+    name: hashicorpfedora
+    description: fed hashi
+    baseurl: https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+    state: absent
+  become: yes
+
+- name: "epel repo activation"
+  dnf:
+    name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm"
+    state: present
+  become: yes
+
+- name: "remi repo activation"
+  dnf:
+    name: "https://rpms.remirepo.net/enterprise/remi-release-8.rpm"
+    state: present
+  become: yes
+
+- name: Install Vagrant via dnf
+  import_tasks: install_via_dnf.yml
+# - name: Add repos via yum (which will also be used by dnf)
+#   ansible.builtin.yum_repository:
+#     name: epel
+#     description: EPEL YUM repo
+#     baseurl: https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+
+# - name: install vagrant packages
+#   ansible.builtin.yum:
+#     name: vagrant
+#   become: yes

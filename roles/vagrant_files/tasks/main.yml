@@ -1,0 +1,2 @@
+---
+- include_tasks: stage_vagrant_file.yml

@@ -1,0 +1,19 @@
+---
+- name: Install dnf-plugins-core
+  ansible.builtin.dnf:
+    name: dnf-plugins-core
+  become: yes
+
+- name: Add repo to dnf via command line
+  command:
+    cmd: dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+  become: yes
+
+- name: install vagrant package
+  ansible.builtin.dnf:
+    name: vagrant
+    update_cache: yes
+  become: yes
+# sudo dnf install -y dnf-plugins-core
+# sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+# sudo dnf -y install vagrant

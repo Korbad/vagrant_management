@@ -1,0 +1,3 @@
+---
+dependencies:
+- korbad.vagrant_manager.vagrant_files

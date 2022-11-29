@@ -1,0 +1,5 @@
+- name: Execute vagrant up with provisioning
+  command:
+    cmd: vagrant up --provision
+    chdir: "{{ vagrant_staging_dir }}/{{ inventory_hostname }}"
+  delegate_to: localhost
